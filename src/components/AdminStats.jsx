@@ -1,9 +1,10 @@
-import { BookOpen, CheckCircle2, XCircle, Star } from "lucide-react";
+import { BookOpen, CheckCircle2, XCircle, Star, CalendarDays } from "lucide-react";
 
-function AdminStats({ books }) {
+function AdminStats({ books, reservations = [] }) {
   const totalBooks = books.length;
   const availableBooks = books.filter((book) => book.available).length;
   const unavailableBooks = books.filter((book) => !book.available).length;
+  const totalReservations = reservations.length;
 
   const averageRating =
     books.length > 0
@@ -34,10 +35,15 @@ function AdminStats({ books }) {
       value: averageRating,
       icon: <Star size={22} />,
     },
+    {
+      title: "Bronlar soni",
+      value: totalReservations,
+      icon: <CalendarDays size={22} />,
+    },
   ];
 
   return (
-    <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+    <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
       {cards.map((card, index) => (
         <div
           key={index}

@@ -3,6 +3,7 @@ import {
   BookOpen,
   PlusCircle,
   Pencil,
+  CalendarDays,
   RotateCcw,
   LogOut,
 } from "lucide-react";
@@ -56,6 +57,14 @@ function AdminSidebar({
         >
           <Pencil size={18} />
           Tahrirlash
+        </button>
+
+        <button
+          onClick={() => setActiveSection("reservations")}
+          className={itemClass("reservations")}
+        >
+          <CalendarDays size={18} />
+          Bronlar
         </button>
 
         <button

@@ -5,17 +5,24 @@ import AdminStats from "../components/AdminStats";
 import AddBookForm from "../components/AddBookForm";
 import EditBookForm from "../components/EditBookForm";
 import AdminBookTable from "../components/AdminBookTable";
+import AdminReservationTable from "../components/AdminReservationTable";
 import {
   fetchBooks,
   createBook,
   updateBook,
   deleteBook,
 } from "../services/bookService";
+import {
+  fetchReservations,
+  updateReservationStatus,
+  deleteReservation,
+} from "../services/reservationService";
 import { removeToken } from "../utils/auth";
 
 function Admin() {
   const [activeSection, setActiveSection] = useState("dashboard");
   const [books, setBooks] = useState([]);
+  const [reservations, setReservations] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const navigate = useNavigate();
 
@@ -28,8 +35,18 @@ function Admin() {
     }
   };
 
+  const loadReservations = async () => {
+    try {
+      const data = await fetchReservations();
+      setReservations(data);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   useEffect(() => {
     loadBooks();
+    loadReservations();
   }, []);
 
   const handleAddBook = async (newBook) => {
@@ -93,6 +110,24 @@ function Admin() {
     }
   };
 
+  const handleReservationStatusChange = async (id, status) => {
+    try {
+      await updateReservationStatus(id, status);
+      await loadReservations();
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const handleDeleteReservation = async (id) => {
+    try {
+      await deleteReservation(id);
+      await loadReservations();
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   const handleResetBooks = async () => {
     alert("Bu bosqichda reset books seed orqali ishlaydi.");
   };
@@ -128,7 +163,9 @@ function Admin() {
             </p>
           </div>
 
-          {activeSection === "dashboard" && <AdminStats books={books} />}
+          {activeSection === "dashboard" && (
+            <AdminStats books={books} reservations={reservations} />
+          )}
 
           {activeSection === "books" && (
             <AdminBookTable
@@ -145,6 +182,14 @@ function Admin() {
             <EditBookForm
               selectedBook={selectedBook}
               onUpdateBook={handleUpdateBook}
+            />
+          )}
+
+          {activeSection === "reservations" && (
+            <AdminReservationTable
+              reservations={reservations}
+              onChangeStatus={handleReservationStatusChange}
+              onDeleteReservation={handleDeleteReservation}
             />
           )}
         </div>

@@ -1,7 +1,16 @@
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { ArrowLeft, BookOpen, Calendar, Globe, Star, User, FileText } from "lucide-react";
+import {
+  ArrowLeft,
+  BookOpen,
+  Calendar,
+  Globe,
+  Star,
+  User,
+  FileText,
+} from "lucide-react";
 import { fetchBookBySlug, fetchBooks } from "../services/bookService";
+import ReservationForm from "../components/ReservationForm";
 
 function BookDetail() {
   const { slug } = useParams();
@@ -161,10 +170,6 @@ function BookDetail() {
           </div>
 
           <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-            <button className="rounded-2xl bg-blue-700 px-6 py-3.5 font-semibold text-white transition hover:bg-blue-800">
-              Bron qilish
-            </button>
-
             {book.pdf ? (
               <a
                 href={book.pdf}
@@ -186,6 +191,8 @@ function BookDetail() {
           </div>
         </div>
       </div>
+
+      <ReservationForm bookId={book._id} bookTitle={book.title} />
 
       {relatedBooks.length > 0 && (
         <div className="mt-20">
