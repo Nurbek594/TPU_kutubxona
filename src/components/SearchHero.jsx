@@ -6,7 +6,9 @@ function SearchHero({ search, setSearch }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/books");
+    const params = new URLSearchParams();
+    if (search) params.set("search", search);
+    navigate(`/books?${params.toString()}`);
   };
 
   return (

@@ -1,6 +1,7 @@
 import { getToken } from "../utils/auth";
 
-const API_URL = "http://localhost:5000/api/upload";
+const API_URL =
+  import.meta.env.VITE_UPLOAD_URL || "http://localhost:5000/api/upload";
 
 export async function uploadImage(file) {
   const token = getToken();

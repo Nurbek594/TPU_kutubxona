@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { Menu, X, LibraryBig } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -8,10 +9,10 @@ function Navbar() {
   const navClass = ({ isActive }) =>
     isActive
       ? "text-blue-700 font-semibold"
-      : "text-slate-700 hover:text-blue-700 transition";
+      : "text-slate-700 hover:text-blue-700 transition dark-muted";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur-md dark-card dark-border">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
         <Link to="/" className="flex items-center gap-3">
           <div className="rounded-2xl bg-blue-700 p-2 text-white shadow-md">
@@ -20,7 +21,9 @@ function Navbar() {
 
           <div>
             <h1 className="text-lg font-bold md:text-xl">University Library</h1>
-            <p className="text-xs text-slate-500">Digital Knowledge Center</p>
+            <p className="text-xs text-slate-500 dark-muted">
+              Digital Knowledge Center
+            </p>
           </div>
         </Link>
 
@@ -50,7 +53,8 @@ function Navbar() {
           </NavLink>
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden items-center gap-3 md:flex">
+          <ThemeToggle />
           <Link
             to="/books"
             className="rounded-xl bg-blue-700 px-5 py-2.5 text-sm font-semibold text-white shadow hover:bg-blue-800 transition"
@@ -59,16 +63,19 @@ function Navbar() {
           </Link>
         </div>
 
-        <button
-          onClick={() => setOpen(!open)}
-          className="rounded-lg border border-slate-200 p-2 md:hidden"
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle />
+          <button
+            onClick={() => setOpen(!open)}
+            className="rounded-lg border border-slate-200 p-2 dark-border"
+          >
+            {open ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
 
       {open && (
-        <div className="border-t border-slate-200 bg-white md:hidden">
+        <div className="border-t border-slate-200 bg-white md:hidden dark-card dark-border">
           <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4">
             <NavLink to="/" className={navClass} onClick={() => setOpen(false)}>
               Bosh sahifa

@@ -13,10 +13,19 @@ body,
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   background: #f8fafc;
   color: #0f172a;
+}
+
+body.dark {
+  background: #020617;
+  color: #e2e8f0;
 }
 
 a {
@@ -26,4 +35,39 @@ a {
 
 button {
   cursor: pointer;
+}
+
+input,
+select,
+textarea {
+  background: transparent;
+}
+
+.dark .dark-card {
+  background: #0f172a;
+  border-color: #1e293b;
+  color: #e2e8f0;
+}
+
+.dark .dark-soft {
+  background: #020617;
+  color: #e2e8f0;
+}
+
+.dark .dark-muted {
+  color: #94a3b8;
+}
+
+.dark .dark-border {
+  border-color: #1e293b;
+}
+
+.dark .dark-input {
+  background: #0f172a;
+  border-color: #1e293b;
+  color: #e2e8f0;
+}
+
+.dark .dark-input::placeholder {
+  color: #64748b;
 }

@@ -18,6 +18,7 @@ import {
   deleteReservation,
 } from "../services/reservationService";
 import { removeToken } from "../utils/auth";
+import { useToast } from "../context/ToastContext";
 
 function Admin() {
   const [activeSection, setActiveSection] = useState("dashboard");
@@ -25,6 +26,7 @@ function Admin() {
   const [reservations, setReservations] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   const loadBooks = async () => {
     try {
@@ -53,9 +55,10 @@ function Admin() {
     try {
       await createBook(newBook);
       await loadBooks();
+      showToast("Kitob muvaffaqiyatli qo‘shildi");
       setActiveSection("books");
     } catch (error) {
-      alert(error.message);
+      showToast(error.message, "error");
     }
   };
 
@@ -63,12 +66,13 @@ function Admin() {
     try {
       await deleteBook(id);
       await loadBooks();
+      showToast("Kitob o‘chirildi");
 
       if (selectedBook?._id === id) {
         setSelectedBook(null);
       }
     } catch (error) {
-      alert(error.message);
+      showToast(error.message, "error");
     }
   };
 
@@ -81,17 +85,17 @@ function Admin() {
     try {
       await updateBook(updatedBook._id, updatedBook);
       await loadBooks();
+      showToast("Kitob yangilandi");
       setSelectedBook(null);
       setActiveSection("books");
     } catch (error) {
-      alert(error.message);
+      showToast(error.message, "error");
     }
   };
 
   const handleToggleAvailability = async (id) => {
     try {
       const currentBook = books.find((book) => book._id === id);
-
       if (!currentBook) return;
 
       const updatedBook = {
@@ -101,12 +105,13 @@ function Admin() {
 
       await updateBook(id, updatedBook);
       await loadBooks();
+      showToast("Kitob holati yangilandi");
 
       if (selectedBook?._id === id) {
         setSelectedBook(updatedBook);
       }
     } catch (error) {
-      alert(error.message);
+      showToast(error.message, "error");
     }
   };
 
@@ -114,8 +119,9 @@ function Admin() {
     try {
       await updateReservationStatus(id, status);
       await loadReservations();
+      showToast("Bron statusi yangilandi");
     } catch (error) {
-      alert(error.message);
+      showToast(error.message, "error");
     }
   };
 
@@ -123,17 +129,19 @@ function Admin() {
     try {
       await deleteReservation(id);
       await loadReservations();
+      showToast("Bron o‘chirildi");
     } catch (error) {
-      alert(error.message);
+      showToast(error.message, "error");
     }
   };
 
   const handleResetBooks = async () => {
-    alert("Bu bosqichda reset books seed orqali ishlaydi.");
+    showToast("Reset books seed orqali ishlaydi", "info");
   };
 
   const handleLogout = () => {
     removeToken();
+    showToast("Tizimdan chiqildi", "info");
     navigate("/login");
   };
 

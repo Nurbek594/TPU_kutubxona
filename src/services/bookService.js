@@ -1,6 +1,7 @@
 import { getToken } from "../utils/auth";
 
-const API_URL = "http://localhost:5000/api/books";
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000/api/books";
 
 export async function fetchBooks() {
   const response = await fetch(API_URL);

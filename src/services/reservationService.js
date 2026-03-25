@@ -1,6 +1,8 @@
 import { getToken } from "../utils/auth";
 
-const API_URL = "http://localhost:5000/api/reservations";
+const API_URL =
+  import.meta.env.VITE_RESERVATION_URL ||
+  "http://localhost:5000/api/reservations";
 
 export async function createReservation(reservationData) {
   const response = await fetch(API_URL, {
